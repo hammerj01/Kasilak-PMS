@@ -1,0 +1,160 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+
+namespace ParishDataManagement
+{
+    class Marriage : Person
+    {
+        protected String strMarriageID;
+        protected int iPersonIDHusband;
+        protected int iPersonIDWife;
+        protected int iParentsIDForMotherHusband;
+        protected int iParentsIDForFatherHusband;
+        protected int iParentsIDForMotherWife;
+        protected int iParentsIDForFatherWife;
+        protected int iBookID;
+        protected int iMinisterNo;
+        protected String strLicenseNo;
+        protected String strDateofMarriage;
+        protected String strPlaceofMarriage;
+        protected String strDateofBaptism;
+        protected String strPlaceofBaptism;
+        protected String strAnnotation;
+
+        public String MarriageID
+        {
+            get { return this.strMarriageID; }
+
+            set { this.strMarriageID = value; }
+        }
+
+        public int PersonIDHusband
+        {
+            get { return this.iPersonIDHusband; }
+
+            set { this.iPersonIDHusband = value; }
+        }
+
+        public int PersonIDWife
+        {
+            get { return this.iPersonIDWife; }
+
+            set { this.iPersonIDWife = value; }
+        }
+
+        public int BookID
+        {
+            get { return this.iBookID; }
+
+            set { this.iBookID = value; }
+        }
+
+        public int MinisterNo
+        {
+            get { return this.iMinisterNo; }
+
+            set { this.iMinisterNo = value; }
+        }
+
+        public int ParentsIDForFatherWife
+        {
+            get { return this.iParentsIDForFatherWife; }
+
+            set { this.iParentsIDForFatherWife = value; }
+        }
+
+        public int ParentsIDForFatherHusband
+        {
+            get { return this.iParentsIDForFatherHusband; }
+
+            set { this.iParentsIDForFatherHusband = value; }
+        }
+
+        public int ParentsIDForMotherWife
+        {
+            get { return this.iParentsIDForMotherWife; }
+
+            set { this.iParentsIDForMotherWife = value; }
+        }
+
+        public int ParentsIDForMotherHusband
+        {
+            get { return this.iParentsIDForMotherHusband; }
+
+            set { this.iParentsIDForMotherHusband = value; }
+        }
+
+        public String LicenseNo
+        {
+            get { return this.strLicenseNo; }
+
+            set { this.strLicenseNo = value; }
+        }
+
+        public String DateofMarriage
+        {
+            get { return this.strDateofMarriage; }
+
+            set { this.strDateofMarriage = value; }
+        }
+
+        public String PlaceofMarriage
+        {
+            get { return this.strPlaceofMarriage; }
+
+            set { this.strPlaceofMarriage = value; }
+        }
+
+        public String DateofBaptism
+        {
+            get { return this.strDateofBaptism; }
+
+            set { this.strDateofBaptism = value; }
+        }
+
+        public String PlaceofBaptism
+        {
+            get { return this.strPlaceofBaptism; }
+
+            set { this.strPlaceofBaptism = value; }
+        }
+
+        public String Annotation
+        {
+            get { return this.strAnnotation; }
+
+            set { this.strAnnotation = value; }
+        }
+
+        public void AddNew(Baptismal newBaptismal)
+        {
+            MySqlCommand comm = new MySqlCommand();
+            MySqlConnection conn = new MySqlConnection(MyConnection.connectionString);
+            String strQuery = null;
+
+            try
+            {
+                conn.Open();
+                strQuery = "INSERT INTO tblMarriage(MarriageID,PersonID_Husband,PersonID_Wife,BookID,MinisterNo,ParentsIDForMotherHusband,ParentsIDForFatherHusband," +
+                           "ParentsIDForMotherWife,ParentsIDForFatherWife,LicenseNo,DateofMarriage,DateofBaptism,PlaceofBaptism,Annotation,PlaceofMarriage) VALUES" +
+                           " ('" + this.MarriageID + "','" + this.PersonIDHusband + "','" + this.PersonIDWife + "','" + this.BookID + "','" + this.MinisterNo + "','" + this.ParentsIDForMotherHusband + "'," +
+                           "'" + this.ParentsIDForFatherHusband + "','" + this.ParentsIDForMotherWife + "','" + this.ParentsIDForFatherWife + "','" + this.LicenseNo + "','" + this.DateofMarriage + "'," +
+                           "'" + this.DateofBaptism + "','" + this.PlaceofBaptism + "','" + this.Annotation + "','" + this.PlaceofMarriage + "')";
+
+                comm.Connection = conn;
+                comm.CommandText = strQuery;
+                comm.ExecuteNonQuery();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, SystemVariable.ProjectName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            conn.Close();
+        }
+    }
+}

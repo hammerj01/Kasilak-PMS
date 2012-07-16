@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+
+namespace ParishDataManagement
+{
+    public partial class frmMasterList : Form
+    {
+
+        public frmMasterList()
+        {
+            InitializeComponent();
+        }
+
+        private void frmMasterList_Load(object sender, EventArgs e)
+        {
+            this.Dock = DockStyle.Fill;
+
+            //set the position of the record list
+            lstRecords.Left = 0;
+            lstRecords.Top = lblCaption.Top + lblCaption.Height;
+            lstRecords.Width = this.ClientSize.Width - splitContainer1.Panel1.Width;
+            lstRecords.Height = this.ClientSize.Height - lblCaption.Height;
+
+            //set the position of record count label
+            lblRecordCount.Left = 5;
+            lblRecordCount.Top = lstRecords.Height + lblCaption.Height + 5;
+
+            this.LoadDataToList();
+        }
+
+        private void LoadDataToList()
+        {
+            String strQuery = "SELECT tblBaptismal.BaptismalID,Firstname,Middlename,Lastname,BirthPlace FROM tblPerson" +
+                              " RIGHT JOIN tblBaptismal ON tblPerson.PersonID = tblBaptismal.PersonID";
+
+            Procedure.PopulateListView(lstRecords, strQuery);
+        }
+
+        private void cmdPrint_Click(object sender, EventArgs e)
+        {
+            this.ConfigureCrystalReports();
+        }
+
+        private void ConfigureCrystalReports()
+        {
+            MySqlConnection conn = new MySqlConnection(MyConnection.connectionString);
+            ReportDocument baptismalReport = new ReportDocument();
+            DataSet dataSet = new DataSet();
+            String reportPath = Path.GetFullPath(@"C:\Users\Public\Documents\ParishDataManagement\ParishDataManagement\ParishDataManagement\Reports\rptBaptismal.rpt");
+            String strQuery = "SELECT tblBaptismal.BaptismalID,Firstname,Middlename,Lastname,BirthPlace FROM tblPerson" +
+                              " RIGHT JOIN tblBaptismal ON tblPerson.PersonID = tblBaptismal.PersonID WHERE tblBaptismal.BaptismalID = '" + lstRecords.Items[0].Text + "'";
+            
+            MySqlDataAdapter adapter = new MySqlDataAdapter(strQuery, conn);           
+            baptismalReport.Load(reportPath);
+            frmReportViewer newViewer = new frmReportViewer();
+
+            dataSet.ReadXmlSchema(Path.GetFullPath("BaptismalDataSetSchema.xsd"));
+            baptismalReport.SetDataSource(dataSet);
+            newViewer.crystalReportViewer.ReportSource = baptismalReport;
+            newViewer.ShowDialog();
+        }
+    }
+}

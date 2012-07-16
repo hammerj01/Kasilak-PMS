@@ -1,0 +1,276 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ParishDataManagement
+{
+    public partial class frmMarriageEntry : Form
+    {
+        Person newPerson = new Person();
+        bool bLiveSearch = false;
+        bool bFound = false;
+
+        public frmMarriageEntry()
+        {
+            InitializeComponent();
+        }
+
+        private void frmMarriageEntry_Load(object sender, EventArgs e)
+        {
+            this.PopulateMarriageComboBox();
+
+            if (bLiveSearch)
+            {
+                dtHusbandBdate.Enabled = false;
+                cboHusbandStatus.Enabled = false;
+            }
+            else
+                bLiveSearch = false;
+        }
+
+        private void chkLiveSearch_CheckedChanged(object sender, EventArgs e)
+        {
+            frmMarriageEntry newForm = new frmMarriageEntry();
+
+            if (chkLiveSearch.Checked)
+            {
+                bLiveSearch = true;
+            }
+            else
+                bLiveSearch = false;
+
+            if (bLiveSearch)
+                DisableControl();
+            else
+                EnabledControl();
+        }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            this.Dispose();
+        }
+
+        private void EnabledControl()
+        {
+            /** HUSBAND CONTROL **/
+            dtHusbandBdate.Enabled = true;
+            cboHusbandStatus.Enabled = true;
+            cboHusbandProvince.Enabled = true;
+            cboHusbandTown.Enabled = true;
+            txtHusbandBarangay.Enabled = true;
+            
+            /** WIFE CONTROL **/
+            dtWifeBdate.Enabled = true;
+            cboWifeStatus.Enabled = true;
+            cboWifeProvince.Enabled = true;
+            cboWifeTown.Enabled = true;
+            txtWifeBarangay.Enabled = true;
+        }
+
+        private void DisableControl()
+        {
+            /** HUSBAND CONTROL **/
+            dtHusbandBdate.Enabled = false;
+            cboHusbandStatus.Enabled = false;
+            cboHusbandProvince.Enabled = false;
+            cboHusbandTown.Enabled = false;
+            txtHusbandBarangay.Enabled = false;
+
+            /** WIFE CONTROL **/
+            dtWifeBdate.Enabled = false;
+            cboWifeStatus.Enabled = false;
+            cboWifeProvince.Enabled = false;
+            cboWifeTown.Enabled = false;
+            txtWifeBarangay.Enabled = false;
+        }
+
+        private void txtHusbandFname_TextChanged(object sender, EventArgs e)
+        {
+            if (bLiveSearch)
+            {
+                if (!bFound)
+                {
+                    PopulateHusbandList("Firstname", txtHusbandFname.Text);
+                    SetListviewPosition(txtHusbandFname, lstHusbandInfo);
+                }
+            }
+        }
+
+        private void txtHusbandMname_TextChanged(object sender, EventArgs e)
+        {
+            if (bLiveSearch)
+            {
+                if (!bFound)
+                {
+                    PopulateHusbandList("Middlename", txtHusbandMname.Text);
+                    SetListviewPosition(txtHusbandMname, lstHusbandInfo);
+                }
+            }
+        }
+
+        private void SetListviewPosition(TextBox TextboxName, ListView lstPersonInfo)
+        { 
+            lstPersonInfo.Left = TextboxName.Left;
+            lstPersonInfo.Top = TextboxName.Top + TextboxName.Height;
+            if (!String.IsNullOrEmpty(TextboxName.Text))
+                lstPersonInfo.Visible = true;
+            else
+                lstPersonInfo.Visible = false;
+        }
+
+        private void txtHusbandLname_TextChanged(object sender, EventArgs e)
+        {
+            if (bLiveSearch)
+            {
+                if (!bFound)
+                {
+                    PopulateHusbandList("Lastname", txtHusbandLname.Text);
+                    SetListviewPosition(txtHusbandLname, lstHusbandInfo);
+                }
+            }
+        }
+
+        private void txtWifeFname_TextChanged(object sender, EventArgs e)
+        {
+            if (bLiveSearch)
+            {
+                if (!bFound)
+                {
+                    PopulateWifeList("Firstname", txtHusbandFname.Text);
+                    SetListviewPosition(txtWifeFname, lstWifeInfo);
+                }
+            }
+        }
+
+        private void txtWifeMname_TextChanged(object sender, EventArgs e)
+        {
+            SetListviewPosition(txtWifeMname, lstWifeInfo);
+        }
+
+        private void txtWifeLname_TextChanged(object sender, EventArgs e)
+        {
+            SetListviewPosition(txtWifeLname, lstWifeInfo);
+        }
+
+        private void PopulateHusbandList(String strFieldname, String strText)
+        {
+            String strQuery = "SELECT PersonID, Firstname, Middlename, Lastname FROM tblPerson WHERE Gender = 'Male' AND Status = 'Single' AND " + strFieldname + " LIKE '%" + strText + "%'";
+            Procedure.PopulateListView(lstHusbandInfo, strQuery);
+        }
+
+        private void PopulateWifeList(String strFieldname, String strText)
+        {
+            String strQuery = "SELECT PersonID, Firstname, Middlename, Lastname FROM tblPerson WHERE Gender = 'Female' AND Status = 'Single' AND " + strFieldname + " LIKE '%" + strText + "%'";
+            Procedure.PopulateListView(lstWifeInfo, strQuery);
+        }
+
+        private void lstHusbandInfo_DoubleClick(object sender, EventArgs e)
+        {
+            Person newPersonInfo = new Person();
+            String strAddress = null;
+            int iPersonID = 0;
+
+            bFound = true;
+            iPersonID = Convert.ToInt16(lstHusbandInfo.SelectedItems[0].Text);
+            newPersonInfo.PersonID = iPersonID;
+            txtHusbandFname.Text = lstHusbandInfo.SelectedItems[0].SubItems[1].Text;
+            txtHusbandMname.Text = lstHusbandInfo.SelectedItems[0].SubItems[2].Text;
+            txtHusbandLname.Text = lstHusbandInfo.SelectedItems[0].SubItems[3].Text;
+            newPersonInfo.GetPersonInfoByID(newPersonInfo);
+            dtHusbandBdate.Text = newPersonInfo.Birthdate;
+            cboHusbandStatus.Text = newPersonInfo.Status;
+            strAddress = newPersonInfo.Birthplace;
+            String[] temp = strAddress.Split(',');
+
+            if (temp.Length == 3)
+            {
+                txtHusbandBarangay.Text = temp[0];
+                cboHusbandTown.Text = temp[1].Trim();
+                cboHusbandProvince.Text = temp[2].Trim();
+            }
+            else if (temp.Length == 2)
+            {
+                cboHusbandTown.Text = temp[0];
+                cboHusbandProvince.Text = temp[1].Trim();
+            }
+            else cboHusbandProvince.Text = temp[0];
+
+            lstHusbandInfo.Visible = false;
+            bFound = false;
+        }
+
+        private void PopulateMarriageComboBox()
+        {
+            String strQuery = "SELECT * FROM tblProvince ORDER BY ProvinceName ASC";
+            String strTownQuery = "SELECT * FROM tblTown ORDER BY TownName ASC";
+
+            /** HUSBAND COMBOBOX **/
+            Procedure.PopulateComboBox(cboHusbandProvince, strQuery, "tblProvince", "ProvinceName", "ProvinceID");
+            Procedure.PopulateComboBox(cboHusbandTown, strTownQuery, "tblTown", "TownName", "TownID");
+            Procedure.PopulateComboBox(cboProvAddress, strQuery, "tblProvince", "ProvinceName", "ProvinceID");
+            /** WIFE COMBOBOX **/
+            Procedure.PopulateComboBox(cboWifeProvince, strQuery, "tblProvince", "ProvinceName", "ProvinceID");
+            Procedure.PopulateComboBox(cboWifeTown, strTownQuery, "tblTown", "TownName", "TownID");
+            Procedure.PopulateComboBox(cboProvAddress_Wife, strQuery, "tblProvince", "ProvinceName", "ProvinceID");
+        }
+
+        private void cboProvAddress_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            String strQuery = "SELECT TownID,TownName FROM tblTown INNER JOIN tblProvince ON tblProvince.ProvinceID = tblTown.ProvinceID" +
+                              " WHERE ProvinceName='" + cboProvAddress.Text + "' ORDER BY TownName ASC";
+
+            Procedure.PopulateComboBox(cboTownAddress, strQuery, "tblTown", "TownName", "TownID");
+        }
+
+        private void cboProvAddress_Wife_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            String strQuery = "SELECT TownID,TownName FROM tblTown INNER JOIN tblProvince ON tblProvince.ProvinceID = tblTown.ProvinceID" +
+                              " WHERE ProvinceName='" + cboProvAddress_Wife.Text + "' ORDER BY TownName ASC";
+
+            Procedure.PopulateComboBox(cboTownAddress_Wife, strQuery, "tblTown", "TownName", "TownID");
+        }
+
+        private void lstWifeInfo_DoubleClick(object sender, EventArgs e)
+        {
+            Person newPersonInfo = new Person();
+            Baptismal newBaptismal = new Baptismal();
+            String strAddress = null;
+            int iPersonID = 0;
+
+            bFound = true;
+            iPersonID = Convert.ToInt16(lstHusbandInfo.SelectedItems[0].Text);
+            newPersonInfo.PersonID = iPersonID;
+            txtWifeFname.Text = lstWifeInfo.SelectedItems[0].SubItems[1].Text;
+            txtWifeMname.Text = lstWifeInfo.SelectedItems[0].SubItems[2].Text;
+            txtWifeLname.Text = lstWifeInfo.SelectedItems[0].SubItems[3].Text;
+            newPersonInfo.GetPersonInfoByID(newPersonInfo);
+            dtWifeBdate.Text = newPersonInfo.Birthdate;
+            cboWifeStatus.Text = newPersonInfo.Status;
+            strAddress = newPersonInfo.Birthplace;
+            txtWifeFather.Text = newPerson.GetPersonNameByID(newBaptismal.GetParentsIDByBaptismalID(newBaptismal.GetBaptismalIDByPersonID(iPersonID), "ParentsIDForFather"));
+            String[] temp = strAddress.Split(',');
+
+            if (temp.Length == 3)
+            {
+                txtWifeBarangay.Text = temp[0];
+                cboWifeTown.Text = temp[1].Trim();
+                cboWifeProvince.Text = temp[2].Trim();
+            }
+            else if (temp.Length == 2)
+            {
+                cboWifeTown.Text = temp[0];
+                cboWifeProvince.Text = temp[1].Trim();
+            }
+            else cboWifeProvince.Text = temp[0];
+
+            lstWifeInfo.Visible = false;
+            bFound = false;
+        }
+    }
+}

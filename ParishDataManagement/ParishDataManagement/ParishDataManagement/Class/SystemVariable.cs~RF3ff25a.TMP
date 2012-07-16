@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ParishDataManagement
+{
+    class SystemVariable
+    {
+        public static String ProjectName = "Management Information System ver 1.0";
+        public static int iTagged = 0;
+        public static String[] arrSponsorPersonID = new String[];
+        public static String[] arrSponsorFirstname;
+        public static String[] arrSponsorMiddlename;
+        public static String[] arrSponsorLastname;
+        public static String[] arrSponsorAddress;
+
+        public static int getArrayLenght() {
+            if (Convert.ToString(arrSponsorPersonID.Length) == null)
+            {
+                return 0;
+            }
+            else return arrSponsorPersonID.Length;
+        }
+    }
+}

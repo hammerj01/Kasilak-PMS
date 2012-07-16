@@ -1,0 +1,181 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ParishDataManagement
+{
+    public partial class frmConfirmationEntry : Form
+    {
+        bool bLiveSearch = false;
+
+        public frmConfirmationEntry()
+        {
+            InitializeComponent();
+        }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            this.Dispose();
+        }
+
+        private void chkLiveHusband_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkLiveHusband.Checked)
+            {
+                bLiveSearch = true;
+                lblNote.ForeColor = SystemColors.ActiveCaption;
+                chkLiveHusband.ForeColor = Color.Blue;
+                this.ChangeFontStyle(txtFirstname);
+                this.ChangeFontStyle(txtLastname);
+            }
+            else
+            {
+                bLiveSearch = false;
+                lblNote.ForeColor = Color.Black;
+                chkLiveHusband.ForeColor = Color.Black;
+                this.ChangeTextboxStyle(txtFirstname);
+                this.ChangeTextboxStyle(txtLastname);
+            }
+            //if (bLiveSearch)
+            //    //DisableControl();
+            //else
+            //    //EnabledControl();
+        }
+
+        private void ChangeFontStyle(TextBox TextboxName) 
+        {
+            TextboxName.Text = "Enter search text here:";
+            TextboxName.ForeColor = SystemColors.ScrollBar;
+            TextboxName.Font = new Font(this.Font, FontStyle.Italic);
+        }
+
+        private void txtFirstname_Enter(object sender, EventArgs e)
+        {
+            this.ChangeTextboxStyle(txtFirstname);
+        }
+
+        private void txtLastname_Enter(object sender, EventArgs e)
+        {
+            this.ChangeTextboxStyle(txtLastname);
+        }
+
+        private void SetListviewPosition(TextBox TextboxName, ListView lstPersonInfo)
+        {
+            lstPersonInfo.Left = TextboxName.Left;
+            lstPersonInfo.Top = TextboxName.Top + TextboxName.Height;
+            if (!String.IsNullOrEmpty(TextboxName.Text))
+            {
+                lstPersonInfo.Visible = true;
+            }
+            else lstPersonInfo.Visible = false;
+        }
+
+        private void txtFirstname_TextChanged(object sender, EventArgs e)
+        {
+            if (bLiveSearch)
+            {
+                if (txtFirstname.Text != "Enter search text here:")
+                {
+                    PopulatePersonInfoList("Firstname", txtFirstname.Text);
+                    SetListviewPosition(txtFirstname, lstPersonInfo);
+                }
+            }
+        }
+
+        private void ChangeTextboxStyle(TextBox TextboxName) 
+        {
+            TextboxName.Clear();
+            TextboxName.ForeColor = SystemColors.WindowText;
+            TextboxName.Font = new Font("Tahoma", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
+        }
+
+        private void txtLastname_TextChanged(object sender, EventArgs e)
+        {
+            if (bLiveSearch)
+            {
+                if (txtLastname.Text != "Enter search text here:")
+                {
+                    PopulatePersonInfoList("Lastname", txtLastname.Text);
+                    SetListviewPosition(txtLastname, lstPersonInfo);
+                }
+            }
+        }
+
+        private void PopulatePersonInfoList(String strFieldname, String strText)
+        {
+            String strQuery = "SELECT tblBaptismal.PersonID, Firstname, Middlename, Lastname FROM tblPerson RIGHT JOIN tblBaptismal ON tblPerson.PersonID = tblBaptismal.PersonID" +
+                              " WHERE Status = 'Single' AND " + strFieldname + " LIKE '%" + strText + "%'";
+            Procedure.PopulateListView(lstPersonInfo, strQuery);
+        }
+
+        private void lstPersonInfo_DoubleClick(object sender, EventArgs e)
+        {
+            Person newPersonInfo = new Person();
+            Baptismal newBaptismalInfo = new Baptismal();
+            String strAddress = null;
+            String strBaptismalID = null;
+            int iPersonID = 0;
+
+            //bFound = true;
+            iPersonID = Convert.ToInt16(lstPersonInfo.SelectedItems[0].Text);
+
+            strBaptismalID = newBaptismalInfo.GetBaptismalIDByPersonID(iPersonID);
+            newBaptismalInfo.SetBaptismalInfo(strBaptismalID);
+            newPersonInfo.SetPersonInfo(iPersonID);
+
+            txtFirstname.Text = lstPersonInfo.SelectedItems[0].SubItems[1].Text;
+            txtMiddlename.Text = lstPersonInfo.Items[0].SubItems[2].Text;
+            txtLastname.Text = lstPersonInfo.Items[0].SubItems[3].Text;
+
+            //dtHusbandBdate.Text = newHusbandInfo.Birthdate;
+            //dtHusbandBaptism.Text = newHusbandBaptismalInfo.DateofBaptism;
+            //txtBaptismalPlace_Husband.Text = newHusbandBaptismalInfo.PlaceofBaptism;
+            //cboHusbandStatus.Text = newHusbandInfo.Status;
+
+            //String strFather = newPerson.GetPersonNameByID(newParent.GetPersonIDByParentsID(newHusbandBaptismalInfo.ParentsNoForFather));
+            //if (!String.IsNullOrEmpty(strFather))
+            //{
+            //    lblHusbandFatherID.Text = Convert.ToString(newHusbandBaptismalInfo.ParentsNoForFather);
+            //    txtHusbandFather.Text = strFather;
+            //    txtHusbandFather.ReadOnly = true;
+            //    lnkAddFather_Husband.Enabled = false;
+            //}
+
+            //String strMother = newPerson.GetPersonNameByID(newParent.GetPersonIDByParentsID(newHusbandBaptismalInfo.ParentsNoForMother));
+            //if (!String.IsNullOrEmpty(strMother))
+            //{
+            //    lblHusbandMotherID.Text = Convert.ToString(newHusbandBaptismalInfo.ParentsNoForMother);
+            //    txtHusbandMother.Text = strMother;
+            //    txtHusbandMother.ReadOnly = true;
+            //    lnkAddMother_Husband.Enabled = false;
+            //}
+
+            //strAddress = newHusbandInfo.Birthplace;
+            //String[] temp = strAddress.Split(',');
+
+            //if (temp.Length == 3)
+            //{
+            //    txtHusbandBarangay.Text = temp[0];
+            //    cboHusbandTown.Text = temp[1].Trim();
+            //    cboHusbandProvince.Text = temp[2].Trim();
+            //}
+            //else if (temp.Length == 2)
+            //{
+            //    cboHusbandTown.Text = temp[0];
+            //    cboHusbandProvince.Text = temp[1].Trim();
+            //}
+            //else cboHusbandProvince.Text = temp[0];
+
+            lstPersonInfo.Visible = false;
+            this.ChangeTextboxStyle(txtFirstname);
+            this.ChangeTextboxStyle(txtLastname);
+            //bFound = false;
+        }
+    }
+}

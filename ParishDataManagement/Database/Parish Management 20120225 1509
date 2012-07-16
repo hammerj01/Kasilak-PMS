@@ -1,0 +1,649 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.1.43-community
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema dbparish
+--
+
+CREATE DATABASE IF NOT EXISTS dbparish;
+USE dbparish;
+
+--
+-- Definition of table `tblbaptismal`
+--
+
+DROP TABLE IF EXISTS `tblbaptismal`;
+CREATE TABLE `tblbaptismal` (
+  `BaptismalID` varchar(20) NOT NULL,
+  `PersonID` int(10) unsigned NOT NULL,
+  `BookID` varchar(10) NOT NULL,
+  `MinisterNo` int(10) unsigned NOT NULL,
+  `ParentsIDForFather` int(10) unsigned NOT NULL,
+  `ParentsIDForMother` int(10) unsigned NOT NULL,
+  `DateofBaptism` varchar(45) NOT NULL,
+  `Resident` varchar(200) NOT NULL,
+  `Annotation` varchar(45) NOT NULL,
+  `PlaceofBaptism` varchar(200) NOT NULL,
+  PRIMARY KEY (`BaptismalID`) USING BTREE,
+  KEY `FK_tblbaptismal_1` (`PersonID`),
+  KEY `FK_tblbaptismal_2` (`BookID`),
+  KEY `FK_tblbaptismal_3` (`MinisterNo`),
+  KEY `FK_tblbaptismal_4` (`ParentsIDForFather`),
+  KEY `FK_tblbaptismal_5` (`ParentsIDForMother`),
+  CONSTRAINT `FK_tblbaptismal_1` FOREIGN KEY (`PersonID`) REFERENCES `tblperson` (`PersonID`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblbaptismal_3` FOREIGN KEY (`MinisterNo`) REFERENCES `tblminister` (`MinisterNo`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblbaptismal_4` FOREIGN KEY (`ParentsIDForFather`) REFERENCES `tblparent` (`ParentsNo`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblbaptismal_5` FOREIGN KEY (`ParentsIDForMother`) REFERENCES `tblparent` (`ParentsNo`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `tblbaptismal`
+--
+
+/*!40000 ALTER TABLE `tblbaptismal` DISABLE KEYS */;
+INSERT INTO `tblbaptismal` (`BaptismalID`,`PersonID`,`BookID`,`MinisterNo`,`ParentsIDForFather`,`ParentsIDForMother`,`DateofBaptism`,`Resident`,`Annotation`,`PlaceofBaptism`) VALUES 
+ ('106-1987-0001',7,'106',1,1,2,'Saturday, May 28, 2011','Agsoso, Loon, Bohol','','Loon, Bohol'),
+ ('106-1987-0002',6,'106',1,1,2,'Wednesday, May 25, 2011','Agsoso, Loon, Bohol','','Loon, Bohol'),
+ ('106-1987-0003',8,'106',1,1,2,'Saturday, May 28, 2011','Canpatud, Loon, Bohol','','Loon, Bohol'),
+ ('106-1987-0004',9,'106',1,1,2,'Saturday, May 28, 2011','Canpatud, Loon, Bohol','','Loon, Bohol'),
+ ('106-1987-0005',10,'106',1,1,2,'Saturday, May 28, 2011','Canpatud, Loon, Bohol','','Loon'),
+ ('106-1987-0006',11,'106',1,1,2,'Saturday, May 28, 2011','Agsoso, Loon, Bohol','','Loon'),
+ ('106-2009-0001',14,'106',1,3,4,'Saturday, August 13, 2011','Canpatud, Loon, Bohol','','Loon, Bohol'),
+ ('106-2009-0002',17,'106',1,5,6,'Saturday, August 13, 2011','Tubodio, Loon, Bohol','','Loon, Bohol'),
+ ('106-2011-0001',24,'106',3,8,9,'Saturday, October 15, 2011','Canpatud, Loon, Bohol','','Loon, Bohol'),
+ ('106-2011-0002',27,'106',1,10,11,'Friday, November 25, 2011','Poblacion, Loon, Bohol','','Loon, Bohol'),
+ ('106-2011-0003',30,'106',1,12,13,'Friday, November 25, 2011','Poblacion, Loon, Bohol','','Loon, Bohol');
+/*!40000 ALTER TABLE `tblbaptismal` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblbarangay`
+--
+
+DROP TABLE IF EXISTS `tblbarangay`;
+CREATE TABLE `tblbarangay` (
+  `BarangayID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `TownID` int(10) unsigned NOT NULL,
+  `BarangayName` varchar(85) NOT NULL,
+  PRIMARY KEY (`BarangayID`),
+  KEY `FK_tblbarangay_1` (`TownID`),
+  CONSTRAINT `FK_tblbarangay_1` FOREIGN KEY (`TownID`) REFERENCES `tbltown` (`TownID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblbarangay`
+--
+
+/*!40000 ALTER TABLE `tblbarangay` DISABLE KEYS */;
+INSERT INTO `tblbarangay` (`BarangayID`,`TownID`,`BarangayName`) VALUES 
+ (1,4,'Agsoso'),
+ (2,4,'Canpatud'),
+ (3,4,'Tubodio'),
+ (4,4,'Poblacion');
+/*!40000 ALTER TABLE `tblbarangay` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblbook`
+--
+
+DROP TABLE IF EXISTS `tblbook`;
+CREATE TABLE `tblbook` (
+  `BookID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `BookNo` varchar(10) NOT NULL,
+  `Status` varchar(45) NOT NULL,
+  `Category` varchar(45) NOT NULL,
+  `DateAdded` datetime NOT NULL,
+  PRIMARY KEY (`BookID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblbook`
+--
+
+/*!40000 ALTER TABLE `tblbook` DISABLE KEYS */;
+INSERT INTO `tblbook` (`BookID`,`BookNo`,`Status`,`Category`,`DateAdded`) VALUES 
+ (1,'101','Inactive','Baptismal','0000-00-00 00:00:00'),
+ (2,'102','Inactive','Confirmation','0000-00-00 00:00:00'),
+ (3,'103','Inactive','Death','0000-00-00 00:00:00'),
+ (4,'104','Inactive','Marriage','0000-00-00 00:00:00'),
+ (5,'105','Inactive','Baptismal','0000-00-00 00:00:00'),
+ (6,'106','Active','Baptismal','0000-00-00 00:00:00'),
+ (7,'107','Inactive','Marriage','0000-00-00 00:00:00'),
+ (8,'108','Active','Confirmation','0000-00-00 00:00:00'),
+ (9,'109','Inactive','Confirmation','0000-00-00 00:00:00'),
+ (10,'110','Inactive','Baptismal','0000-00-00 00:00:00'),
+ (11,'105','Inactive','Confirmation','0000-00-00 00:00:00'),
+ (12,'105','Active','Marriage','0000-00-00 00:00:00'),
+ (13,'105','Active','Death','0000-00-00 00:00:00');
+/*!40000 ALTER TABLE `tblbook` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblchapel`
+--
+
+DROP TABLE IF EXISTS `tblchapel`;
+CREATE TABLE `tblchapel` (
+  `ChapelID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `BarangayID` int(10) unsigned NOT NULL,
+  `ChapelName` varchar(200) NOT NULL,
+  PRIMARY KEY (`ChapelID`),
+  KEY `FK_tblchapel_1` (`BarangayID`),
+  CONSTRAINT `FK_tblchapel_1` FOREIGN KEY (`BarangayID`) REFERENCES `tblbarangay` (`BarangayID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblchapel`
+--
+
+/*!40000 ALTER TABLE `tblchapel` DISABLE KEYS */;
+INSERT INTO `tblchapel` (`ChapelID`,`BarangayID`,`ChapelName`) VALUES 
+ (1,1,'San Isidro'),
+ (2,2,'San Vicente Chapel'),
+ (3,1,'San Roque'),
+ (4,3,'San Isidro Chapel'),
+ (5,4,'Our Lady of Light Parish');
+/*!40000 ALTER TABLE `tblchapel` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblcluster`
+--
+
+DROP TABLE IF EXISTS `tblcluster`;
+CREATE TABLE `tblcluster` (
+  `ClusterID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ChapelID` int(10) unsigned NOT NULL,
+  `ClusterName` varchar(50) NOT NULL,
+  PRIMARY KEY (`ClusterID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblcluster`
+--
+
+/*!40000 ALTER TABLE `tblcluster` DISABLE KEYS */;
+INSERT INTO `tblcluster` (`ClusterID`,`ChapelID`,`ClusterName`) VALUES 
+ (1,3,'Cluster 1'),
+ (2,2,'Cluster 1'),
+ (3,3,'Cluster 2'),
+ (4,4,'Cluster 1'),
+ (5,1,'Cluster 1'),
+ (6,5,'Cluster 1'),
+ (7,5,'Cluster 2');
+/*!40000 ALTER TABLE `tblcluster` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblconfirmation`
+--
+
+DROP TABLE IF EXISTS `tblconfirmation`;
+CREATE TABLE `tblconfirmation` (
+  `ConfirmationID` varchar(13) NOT NULL,
+  `PersonID` int(10) unsigned NOT NULL,
+  `ParentsIDForFather` int(10) unsigned NOT NULL,
+  `ParentsIDForMother` int(10) unsigned NOT NULL,
+  `DateofConfirmation` varchar(45) NOT NULL,
+  `MinisterID` int(10) unsigned NOT NULL,
+  `BookID` int(10) unsigned NOT NULL,
+  `DateofBaptism` varchar(45) NOT NULL,
+  `PlaceofBaptism` varchar(45) NOT NULL,
+  `Resident` varchar(45) NOT NULL,
+  `PlaceofConfirmation` varchar(45) NOT NULL,
+  `Annotation` text,
+  PRIMARY KEY (`ConfirmationID`),
+  KEY `FK_tblconfirmation_1` (`PersonID`),
+  KEY `FK_tblconfirmation_2` (`MinisterID`),
+  KEY `FK_tblconfirmation_3` (`ParentsIDForFather`),
+  KEY `FK_tblconfirmation_4` (`ParentsIDForMother`),
+  KEY `FK_tblconfirmation_5` (`BookID`),
+  CONSTRAINT `FK_tblconfirmation_1` FOREIGN KEY (`PersonID`) REFERENCES `tblperson` (`PersonID`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblconfirmation_2` FOREIGN KEY (`MinisterID`) REFERENCES `tblminister` (`MinisterNo`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblconfirmation_3` FOREIGN KEY (`ParentsIDForFather`) REFERENCES `tblparent` (`ParentsNo`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblconfirmation_4` FOREIGN KEY (`ParentsIDForMother`) REFERENCES `tblparent` (`ParentsNo`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblconfirmation_5` FOREIGN KEY (`BookID`) REFERENCES `tblbook` (`BookID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblconfirmation`
+--
+
+/*!40000 ALTER TABLE `tblconfirmation` DISABLE KEYS */;
+INSERT INTO `tblconfirmation` (`ConfirmationID`,`PersonID`,`ParentsIDForFather`,`ParentsIDForMother`,`DateofConfirmation`,`MinisterID`,`BookID`,`DateofBaptism`,`PlaceofBaptism`,`Resident`,`PlaceofConfirmation`,`Annotation`) VALUES 
+ ('108-2011-0001',7,1,2,'Wednesday, February 22, 2012',1,8,'Saturday, May 28, 2011','Loon, Bohol','Agsoso, Loon, Bohol','Loon, Bohol',''),
+ ('108-2011-0002',11,1,2,'Wednesday, February 22, 2012',3,8,'Saturday, May 28, 2011','Loon','Agsoso, Loon, Bohol','Loon, Bohol','');
+/*!40000 ALTER TABLE `tblconfirmation` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tbllicense`
+--
+
+DROP TABLE IF EXISTS `tbllicense`;
+CREATE TABLE `tbllicense` (
+  `LicenseNo` varchar(15) NOT NULL,
+  `Date` varchar(45) NOT NULL,
+  `Place` varchar(45) NOT NULL,
+  `Observation` text NOT NULL,
+  `ObservationDate` varchar(45) NOT NULL,
+  `ObservationPlace` varchar(45) NOT NULL,
+  PRIMARY KEY (`LicenseNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbllicense`
+--
+
+/*!40000 ALTER TABLE `tbllicense` DISABLE KEYS */;
+INSERT INTO `tbllicense` (`LicenseNo`,`Date`,`Place`,`Observation`,`ObservationDate`,`ObservationPlace`) VALUES 
+ ('1234-567-8901','Saturday, November 26, 2011','','','Saturday, November 26, 2011','');
+/*!40000 ALTER TABLE `tbllicense` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblmarriage`
+--
+
+DROP TABLE IF EXISTS `tblmarriage`;
+CREATE TABLE `tblmarriage` (
+  `MarriageID` varchar(20) NOT NULL,
+  `PersonID_Husband` int(10) unsigned NOT NULL,
+  `BookID` int(10) unsigned NOT NULL,
+  `MinisterNo` int(10) unsigned NOT NULL,
+  `ParentsIDForMotherHusband` int(10) unsigned NOT NULL,
+  `ParentsIDForFatherHusband` int(10) unsigned NOT NULL,
+  `ParentsIDForMotherWife` int(10) unsigned NOT NULL,
+  `ParentsIDForFatherWife` int(10) unsigned NOT NULL,
+  `LicenseNo` varchar(15) NOT NULL,
+  `DateofMarriage` varchar(45) NOT NULL,
+  `Annotation` text NOT NULL,
+  `DateofBaptism` varchar(45) NOT NULL,
+  `PlaceofBaptism` varchar(200) NOT NULL,
+  `PersonID_Wife` int(10) unsigned NOT NULL,
+  `PlaceofMarriage` varchar(200) NOT NULL,
+  PRIMARY KEY (`MarriageID`),
+  KEY `FK_tblMarriage_4` (`ParentsIDForMotherHusband`),
+  KEY `FK_tblMarriage_5` (`ParentsIDForFatherHusband`),
+  KEY `FK_tblMarriage_6` (`ParentsIDForMotherWife`),
+  KEY `FK_tblMarriage_7` (`ParentsIDForFatherWife`),
+  KEY `FK_tblmarriage_8` (`LicenseNo`),
+  KEY `FK_tblmarriage_9` (`PersonID_Wife`),
+  KEY `FK_tblMarriage_1` (`PersonID_Husband`) USING BTREE,
+  KEY `FK_tblmarriage_2` (`BookID`),
+  KEY `FK_tblmarriage_3` (`MinisterNo`),
+  CONSTRAINT `FK_tblmarriage_1` FOREIGN KEY (`PersonID_Husband`) REFERENCES `tblperson` (`PersonID`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblmarriage_2` FOREIGN KEY (`BookID`) REFERENCES `tblbook` (`BookID`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblmarriage_3` FOREIGN KEY (`MinisterNo`) REFERENCES `tblminister` (`MinisterNo`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblMarriage_4` FOREIGN KEY (`ParentsIDForMotherHusband`) REFERENCES `tblparent` (`ParentsNo`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblMarriage_5` FOREIGN KEY (`ParentsIDForFatherHusband`) REFERENCES `tblparent` (`ParentsNo`),
+  CONSTRAINT `FK_tblMarriage_6` FOREIGN KEY (`ParentsIDForMotherWife`) REFERENCES `tblparent` (`ParentsNo`),
+  CONSTRAINT `FK_tblMarriage_7` FOREIGN KEY (`ParentsIDForFatherWife`) REFERENCES `tblparent` (`ParentsNo`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblmarriage_8` FOREIGN KEY (`LicenseNo`) REFERENCES `tbllicense` (`LicenseNo`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_tblmarriage_9` FOREIGN KEY (`PersonID_Wife`) REFERENCES `tblperson` (`PersonID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblmarriage`
+--
+
+/*!40000 ALTER TABLE `tblmarriage` DISABLE KEYS */;
+INSERT INTO `tblmarriage` (`MarriageID`,`PersonID_Husband`,`BookID`,`MinisterNo`,`ParentsIDForMotherHusband`,`ParentsIDForFatherHusband`,`ParentsIDForMotherWife`,`ParentsIDForFatherWife`,`LicenseNo`,`DateofMarriage`,`Annotation`,`DateofBaptism`,`PlaceofBaptism`,`PersonID_Wife`,`PlaceofMarriage`) VALUES 
+ ('105-2011-0001',30,13,1,13,12,11,10,'1234-567-8901','Saturday, November 26, 2011','','','',27,'Loon, Bohol');
+/*!40000 ALTER TABLE `tblmarriage` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblminister`
+--
+
+DROP TABLE IF EXISTS `tblminister`;
+CREATE TABLE `tblminister` (
+  `MinisterNo` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `PersonID` int(10) unsigned NOT NULL,
+  `Title` varchar(45) NOT NULL,
+  PRIMARY KEY (`MinisterNo`),
+  KEY `FK_tblminister_1` (`PersonID`),
+  CONSTRAINT `FK_tblminister_1` FOREIGN KEY (`PersonID`) REFERENCES `tblperson` (`PersonID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblminister`
+--
+
+/*!40000 ALTER TABLE `tblminister` DISABLE KEYS */;
+INSERT INTO `tblminister` (`MinisterNo`,`PersonID`,`Title`) VALUES 
+ (1,3,'Reverend Father'),
+ (2,21,'Reverend Father'),
+ (3,19,'Reverend Father'),
+ (4,20,'Reverend Father');
+/*!40000 ALTER TABLE `tblminister` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblparent`
+--
+
+DROP TABLE IF EXISTS `tblparent`;
+CREATE TABLE `tblparent` (
+  `ParentsNo` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `PersonID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`ParentsNo`),
+  KEY `FK_tblparent_1` (`PersonID`),
+  CONSTRAINT `FK_tblparent_1` FOREIGN KEY (`PersonID`) REFERENCES `tblperson` (`PersonID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblparent`
+--
+
+/*!40000 ALTER TABLE `tblparent` DISABLE KEYS */;
+INSERT INTO `tblparent` (`ParentsNo`,`PersonID`) VALUES 
+ (1,1),
+ (2,2),
+ (3,12),
+ (4,13),
+ (5,15),
+ (6,16),
+ (7,18),
+ (8,22),
+ (9,23),
+ (10,25),
+ (11,26),
+ (12,28),
+ (13,29);
+/*!40000 ALTER TABLE `tblparent` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblperson`
+--
+
+DROP TABLE IF EXISTS `tblperson`;
+CREATE TABLE `tblperson` (
+  `PersonID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Lastname` varchar(45) NOT NULL,
+  `Middlename` varchar(45) NOT NULL,
+  `Firstname` varchar(45) NOT NULL,
+  `Birthdate` varchar(45) NOT NULL,
+  `BirthPlace` varchar(45) NOT NULL,
+  `Gender` varchar(45) NOT NULL,
+  `Status` varchar(45) DEFAULT NULL,
+  `ClusterID` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`PersonID`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblperson`
+--
+
+/*!40000 ALTER TABLE `tblperson` DISABLE KEYS */;
+INSERT INTO `tblperson` (`PersonID`,`Lastname`,`Middlename`,`Firstname`,`Birthdate`,`BirthPlace`,`Gender`,`Status`,`ClusterID`) VALUES 
+ (1,'Merto','Acer','Hipolito','3/1/2011 10:20:44 AM','Cebu City','Male','Single',0),
+ (2,'Sagisabal','Ricalde','Estrella','5/20/1982 11:59:49 AM','Corella, Bohol','Female','Married',0),
+ (3,'Ruyeras','A.','Jose Stelieto','5/20/1982 11:59:49 AM','Loon, Bohol','Male','Priest',0),
+ (4,'Sagisabal','Ricalde','Nino','September 30, 1987','Poblacion, Baclayon, Bohol','Male','Single',1),
+ (5,'Bonifacio','X.','Andres','Wednesday, May 25, 2011','Albur, Bohol','Male','Single',1),
+ (6,'Aquino','Testing','Melchora','Wednesday, May 25, 2011','Poblacion, Tubigon, Bohol','Female','Married',3),
+ (7,'Rizal','Protacio','Jose','Saturday, May 28, 2011','Poblacion, Albur, Bohol','Male','Single',1),
+ (8,'Aquino','X.','Benigno','Saturday, May 28, 2011','Tubigon, Bohol','Male','Single',2),
+ (9,'Estrada','Ejercito','Joseph','Saturday, May 28, 2011','Albur, Bohol','Male','Single',2),
+ (10,'Ramos','Valmonte','Fidel','Saturday, May 28, 2011','Albur, Bohol','Male','Single',2),
+ (11,'Arroyo','Macapagal','Gloria','Saturday, May 28, 2011','Albur, Bohol','Male','Single',1),
+ (12,'Zubiri','X.','Miguel Sr.','8/13/1960 6:28:17 PM','Manila','Male','',0),
+ (13,'Zubiri','X','Miguelita','8/13/1960 6:45:41 PM','Manila','Female','Married',0),
+ (14,'Zubiri','X.','Miguelito','Saturday, August 13, 2005',', Cebu','Male','Single',2),
+ (15,'Piculados','X.','Diosdado','8/13/1970 7:13:19 PM','Loon, Bohol','Male','Married',0),
+ (16,'Piculados','Galban','Dolorosa','2/10/1976 7:14:28 PM','Tubodio, Loon, Bohol','Female','Married',0),
+ (17,'Corciega','Galban','Dexter','Thursday, February 6, 1997','Tubodio, Loon, Bohol','Male','Single',4),
+ (18,'Dela Cruz','X','Juan','9/4/1985 10:41:31 AM','Capitol, Cebu City, Cebu','Male','Married',0),
+ (19,'Torralba','S.','Victor Joseph','9/25/1980 1:08:02 AM','Cogon, Tagbilaran, Bohol','Male','Priest',0),
+ (20,'Veloso','F.','Mario Avelino','9/25/1978 1:08:02 AM','Loon, Bohol','Male','Priest',0),
+ (21,'Somosot','S.','Panfilo','9/25/1970 1:13:01 AM','Poblacion, Calape, Bohol','Male','Priest',0),
+ (22,'Reyes','Ibarra','Crisostomo','10/15/1950 10:13:16 PM','Cebu City, Cebu','Male','Married',0),
+ (23,'Reyes','Magdalena','Cristina','10/15/1965 10:13:56 PM','Cebu City, Cebu','Female','Married',0),
+ (24,'Reyes','Magdalena','Cristine','Thursday, October 15, 1987','Ponce, Cebu City, Cebu','Female','Single',2),
+ (25,'Aquino Jr','X.','Benigno','2/14/1950 11:18:33 PM','Manila City, Manila','Male','Married',0),
+ (26,'Aquino','Cojuangco','Corazon','2/14/1950 11:19:32 PM','Quezon City, Manila','Female','Married',0),
+ (27,'Aquino','Cojuangco','Kristina Bernadette','Sunday, February 14, 1971','Quezon City, Manila','Female','Single',6),
+ (28,'Yap Sr.','Carlos','James','2/15/1950 11:31:05 PM','Manila City, Manila','Male','Married',0),
+ (29,'Carlos','X.','Carmelita','2/15/1950 11:31:53 PM','Makati, Manila','Female','Married',0),
+ (30,'Yap','Carlos','James','Monday, February 15, 1982','Manila City, Manila','Male','Single',7),
+ (31,'','','','','','','',0),
+ (32,'','','','','','','',0);
+/*!40000 ALTER TABLE `tblperson` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblprovince`
+--
+
+DROP TABLE IF EXISTS `tblprovince`;
+CREATE TABLE `tblprovince` (
+  `ProvinceID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ProvinceName` varchar(100) NOT NULL,
+  PRIMARY KEY (`ProvinceID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblprovince`
+--
+
+/*!40000 ALTER TABLE `tblprovince` DISABLE KEYS */;
+INSERT INTO `tblprovince` (`ProvinceID`,`ProvinceName`) VALUES 
+ (1,'Bohol'),
+ (2,'Cebu'),
+ (3,'Iloilo'),
+ (4,'Manila');
+/*!40000 ALTER TABLE `tblprovince` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblsponsor`
+--
+
+DROP TABLE IF EXISTS `tblsponsor`;
+CREATE TABLE `tblsponsor` (
+  `SponsorID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `PersonID` int(10) unsigned NOT NULL,
+  `EventNo` varchar(45) NOT NULL,
+  `Event` varchar(45) NOT NULL,
+  PRIMARY KEY (`SponsorID`),
+  KEY `FK_tblsponsor_1` (`PersonID`),
+  CONSTRAINT `FK_tblsponsor_1` FOREIGN KEY (`PersonID`) REFERENCES `tblperson` (`PersonID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblsponsor`
+--
+
+/*!40000 ALTER TABLE `tblsponsor` DISABLE KEYS */;
+INSERT INTO `tblsponsor` (`SponsorID`,`PersonID`,`EventNo`,`Event`) VALUES 
+ (2,5,'106-2009-0002','Baptismal'),
+ (3,7,'106-2009-0002','Baptismal'),
+ (4,8,'106-2009-0002','Baptismal'),
+ (5,9,'106-2009-0002','Baptismal'),
+ (6,11,'106-2009-0002','Baptismal'),
+ (7,14,'106-2011-0001','Baptismal'),
+ (8,18,'106-2011-0001','Baptismal'),
+ (9,19,'106-2011-0001','Baptismal'),
+ (10,20,'106-2011-0001','Baptismal'),
+ (11,21,'106-2011-0001','Baptismal'),
+ (12,9,'106-2011-0002','Baptismal'),
+ (13,10,'106-2011-0002','Baptismal'),
+ (14,11,'106-2011-0002','Baptismal'),
+ (15,12,'106-2011-0002','Baptismal'),
+ (16,14,'106-2011-0002','Baptismal'),
+ (17,5,'106-2011-0003','Baptismal'),
+ (18,6,'106-2011-0003','Baptismal'),
+ (19,7,'106-2011-0003','Baptismal'),
+ (20,10,'106-2011-0003','Baptismal'),
+ (21,11,'106-2011-0003','Baptismal'),
+ (22,1,'105-2011-0001','Marriage'),
+ (23,2,'105-2011-0001','Marriage'),
+ (24,4,'105-2011-0001','Marriage'),
+ (25,11,'105-2011-0001','Marriage'),
+ (26,14,'105-2011-0001','Marriage'),
+ (27,1,'108-2011-0001','Confirmation'),
+ (28,2,'108-2011-0001','Confirmation'),
+ (29,4,'108-2011-0001','Confirmation'),
+ (30,1,'108-2011-0001','Confirmation'),
+ (31,2,'108-2011-0001','Confirmation'),
+ (32,3,'108-2011-0001','Confirmation'),
+ (33,4,'108-2011-0001','Confirmation'),
+ (34,5,'108-2011-0001','Confirmation'),
+ (35,1,'108-2011-0002','Confirmation'),
+ (36,3,'108-2011-0002','Confirmation'),
+ (37,6,'108-2011-0002','Confirmation'),
+ (38,11,'108-2011-0002','Confirmation'),
+ (39,16,'108-2011-0002','Confirmation');
+/*!40000 ALTER TABLE `tblsponsor` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tbltown`
+--
+
+DROP TABLE IF EXISTS `tbltown`;
+CREATE TABLE `tbltown` (
+  `TownID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ProvinceID` int(10) unsigned NOT NULL,
+  `TownName` varchar(45) NOT NULL,
+  `Status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`TownID`) USING BTREE,
+  KEY `FK_tbltown_1` (`ProvinceID`),
+  CONSTRAINT `FK_tbltown_1` FOREIGN KEY (`ProvinceID`) REFERENCES `tblprovince` (`ProvinceID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbltown`
+--
+
+/*!40000 ALTER TABLE `tbltown` DISABLE KEYS */;
+INSERT INTO `tbltown` (`TownID`,`ProvinceID`,`TownName`,`Status`) VALUES 
+ (1,1,'Albur',0),
+ (2,1,'Baclayon',0),
+ (3,1,'Candijay',0),
+ (4,1,'Loon',0),
+ (5,1,'Jagna',0),
+ (6,1,'Bilar',0),
+ (7,1,'Maribojoc',0),
+ (8,1,'Calape',0),
+ (9,1,'Tubigon',0),
+ (10,1,'Sagbayan',0),
+ (11,1,'Tagbilaran',0),
+ (12,2,'Cebu City',0),
+ (13,2,'Dalagit',0),
+ (14,2,'Lapulapu',0),
+ (15,2,'Danao',0),
+ (16,2,'Argao',0),
+ (17,1,'Corella',0),
+ (18,4,'Makati',0),
+ (19,4,'Quezon City',0),
+ (20,4,'Manila City',0);
+/*!40000 ALTER TABLE `tbltown` ENABLE KEYS */;
+
+--
+-- Create schema dbsystem
+--
+
+CREATE DATABASE IF NOT EXISTS dbsystem;
+USE dbsystem;
+
+--
+-- Definition of table `tblseriesnumber`
+--
+
+DROP TABLE IF EXISTS `tblseriesnumber`;
+CREATE TABLE `tblseriesnumber` (
+  `Year` varchar(10) NOT NULL,
+  `BaptismalSeries` int(10) unsigned NOT NULL,
+  `ConfirmationSeries` int(10) unsigned NOT NULL,
+  `DeathSeries` int(10) unsigned NOT NULL,
+  `MarriageSeries` int(10) unsigned NOT NULL,
+  `Status` varchar(45) NOT NULL,
+  PRIMARY KEY (`Year`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblseriesnumber`
+--
+
+/*!40000 ALTER TABLE `tblseriesnumber` DISABLE KEYS */;
+INSERT INTO `tblseriesnumber` (`Year`,`BaptismalSeries`,`ConfirmationSeries`,`DeathSeries`,`MarriageSeries`,`Status`) VALUES 
+ ('1987',6,0,0,0,'Inactive'),
+ ('2008',0,0,0,0,'Inactive'),
+ ('2009',2,0,0,0,'Inactive'),
+ ('2011',3,2,0,0,'Active');
+/*!40000 ALTER TABLE `tblseriesnumber` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tbluser`
+--
+
+DROP TABLE IF EXISTS `tbluser`;
+CREATE TABLE `tbluser` (
+  `UserID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `UserTypeID` int(10) unsigned NOT NULL,
+  `Username` varchar(45) NOT NULL,
+  `Password` varchar(45) NOT NULL,
+  PRIMARY KEY (`UserID`),
+  KEY `FK_tbluser_1` (`UserTypeID`),
+  CONSTRAINT `FK_tbluser_1` FOREIGN KEY (`UserTypeID`) REFERENCES `tblusertype` (`UserTypeID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbluser`
+--
+
+/*!40000 ALTER TABLE `tbluser` DISABLE KEYS */;
+INSERT INTO `tbluser` (`UserID`,`UserTypeID`,`Username`,`Password`) VALUES 
+ (1,1,'administrator','admin');
+/*!40000 ALTER TABLE `tbluser` ENABLE KEYS */;
+
+
+--
+-- Definition of table `tblusertype`
+--
+
+DROP TABLE IF EXISTS `tblusertype`;
+CREATE TABLE `tblusertype` (
+  `UserTypeID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `UserType` varchar(45) NOT NULL,
+  PRIMARY KEY (`UserTypeID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblusertype`
+--
+
+/*!40000 ALTER TABLE `tblusertype` DISABLE KEYS */;
+INSERT INTO `tblusertype` (`UserTypeID`,`UserType`) VALUES 
+ (1,'Administrator');
+/*!40000 ALTER TABLE `tblusertype` ENABLE KEYS */;
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

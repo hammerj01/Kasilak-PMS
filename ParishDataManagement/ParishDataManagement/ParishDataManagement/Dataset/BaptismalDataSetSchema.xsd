@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="BaptismalDataSetSchema" targetNamespace="http://tempuri.org/BaptismalDataSetSchema.xsd" xmlns:mstns="http://tempuri.org/BaptismalDataSetSchema.xsd" xmlns="http://tempuri.org/BaptismalDataSetSchema.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="dbparishConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="dbparishConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.ParishDataManagement.Properties.Settings.GlobalReference.Default.dbparishConnectionString" Provider="MySql.Data.MySqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="BaptismalTableAdapter" GeneratorDataComponentClassName="BaptismalTableAdapter" Name="Baptismal" UserDataComponentName="BaptismalTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="dbparishConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT tblBaptismal.BaptismalID, CONCAT(tblPerson.Firstname,' ',tblPerson.Middlename,' ',tblPerson.Lastname) as Fullname, tblPerson.Birthdate, tblPerson.BirthPlace, tblBaptismal.DateofBaptism, tblBaptismal.PlaceofBaptism, tblBaptismal.BookID, tblBaptismal.MinisterNo, tblBaptismal.ParentsIDForFather, tblBaptismal.ParentsIDForMother FROM dbparish.tblBaptismal
+LEFT JOIN tblPerson ON tblBaptismal.PersonID = tblPerson.PersonID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="BaptismalID" DataSetColumn="BaptismalID" />
+              <Mapping SourceColumn="Birthdate" DataSetColumn="Birthdate" />
+              <Mapping SourceColumn="BirthPlace" DataSetColumn="BirthPlace" />
+              <Mapping SourceColumn="DateofBaptism" DataSetColumn="DateofBaptism" />
+              <Mapping SourceColumn="Fullname" DataSetColumn="Fullname" />
+              <Mapping SourceColumn="BookID" DataSetColumn="BookID" />
+              <Mapping SourceColumn="PlaceofBaptism" DataSetColumn="PlaceofBaptism" />
+              <Mapping SourceColumn="MinisterNo" DataSetColumn="MinisterNo" />
+              <Mapping SourceColumn="ParentsIDForFather" DataSetColumn="ParentsIDForFather" />
+              <Mapping SourceColumn="ParentsIDForMother" DataSetColumn="ParentsIDForMother" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="BaptismalDataSetSchema" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="BaptismalDataSetSchema" msprop:Generator_DataSetName="BaptismalDataSetSchema" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Baptismal" msprop:Generator_UserTableName="Baptismal" msprop:Generator_RowDeletedName="BaptismalRowDeleted" msprop:Generator_RowChangedName="BaptismalRowChanged" msprop:Generator_RowClassName="BaptismalRow" msprop:Generator_RowChangingName="BaptismalRowChanging" msprop:Generator_RowEvArgName="BaptismalRowChangeEvent" msprop:Generator_RowEvHandlerName="BaptismalRowChangeEventHandler" msprop:Generator_TableClassName="BaptismalDataTable" msprop:Generator_TableVarName="tableBaptismal" msprop:Generator_RowDeletingName="BaptismalRowDeleting" msprop:Generator_TablePropName="Baptismal">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BaptismalID" msprop:Generator_UserColumnName="BaptismalID" msprop:Generator_ColumnVarNameInTable="columnBaptismalID" msprop:Generator_ColumnPropNameInRow="BaptismalID" msprop:Generator_ColumnPropNameInTable="BaptismalIDColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Birthdate" msprop:Generator_UserColumnName="Birthdate" msprop:Generator_ColumnVarNameInTable="columnBirthdate" msprop:Generator_ColumnPropNameInRow="Birthdate" msprop:Generator_ColumnPropNameInTable="BirthdateColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="45" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BirthPlace" msprop:Generator_UserColumnName="BirthPlace" msprop:Generator_ColumnVarNameInTable="columnBirthPlace" msprop:Generator_ColumnPropNameInRow="BirthPlace" msprop:Generator_ColumnPropNameInTable="BirthPlaceColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="45" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DateofBaptism" msprop:Generator_UserColumnName="DateofBaptism" msprop:Generator_ColumnVarNameInTable="columnDateofBaptism" msprop:Generator_ColumnPropNameInRow="DateofBaptism" msprop:Generator_ColumnPropNameInTable="DateofBaptismColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="45" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Fullname" msprop:Generator_UserColumnName="Fullname" msprop:Generator_ColumnPropNameInRow="Fullname" msprop:Generator_ColumnVarNameInTable="columnFullname" msprop:Generator_ColumnPropNameInTable="FullnameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="137" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BookID" msprop:Generator_UserColumnName="BookID" msprop:Generator_ColumnPropNameInRow="BookID" msprop:Generator_ColumnVarNameInTable="columnBookID" msprop:Generator_ColumnPropNameInTable="BookIDColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PlaceofBaptism" msprop:Generator_UserColumnName="PlaceofBaptism" msprop:Generator_ColumnVarNameInTable="columnPlaceofBaptism" msprop:Generator_ColumnPropNameInRow="PlaceofBaptism" msprop:Generator_ColumnPropNameInTable="PlaceofBaptismColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MinisterNo" msprop:Generator_UserColumnName="MinisterNo" msprop:Generator_ColumnPropNameInRow="MinisterNo" msprop:Generator_ColumnVarNameInTable="columnMinisterNo" msprop:Generator_ColumnPropNameInTable="MinisterNoColumn" type="xs:unsignedInt" />
+              <xs:element name="ParentsIDForFather" msprop:Generator_UserColumnName="ParentsIDForFather" msprop:Generator_ColumnPropNameInRow="ParentsIDForFather" msprop:Generator_ColumnVarNameInTable="columnParentsIDForFather" msprop:Generator_ColumnPropNameInTable="ParentsIDForFatherColumn" type="xs:unsignedInt" />
+              <xs:element name="ParentsIDForMother" msprop:Generator_UserColumnName="ParentsIDForMother" msprop:Generator_ColumnPropNameInRow="ParentsIDForMother" msprop:Generator_ColumnVarNameInTable="columnParentsIDForMother" msprop:Generator_ColumnPropNameInTable="ParentsIDForMotherColumn" type="xs:unsignedInt" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Baptismal" />
+      <xs:field xpath="mstns:BaptismalID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
