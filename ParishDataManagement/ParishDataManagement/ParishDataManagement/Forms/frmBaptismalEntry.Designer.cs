@@ -723,7 +723,7 @@
             this.cmdAddSponsor.TabIndex = 99;
             this.cmdAddSponsor.Text = "+";
             this.cmdAddSponsor.UseVisualStyleBackColor = true;
-            this.cmdAddSponsor.Click += new System.EventHandler(this.button3_Click);
+            this.cmdAddSponsor.Click += new System.EventHandler(this.cmdAddSponsor_Click);
             // 
             // cmdRefresh
             // 

@@ -12,6 +12,7 @@ namespace ParishDataManagement
     public partial class frmBaptismalEntry : Form
     {
         Person newPerson = new Person();
+        Parent newParent = new Parent();
         Baptismal newBaptismal = new Baptismal();
         Sponsor newSponsor = new Sponsor();
         Book newBook = new Book();
@@ -350,14 +351,6 @@ namespace ParishDataManagement
             MessageBox.Show("New record successfully saved.", SystemVariable.ProjectName);
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            frmListofSponsors newForm = new frmListofSponsors();
-            newForm.SetSponsorType("Baptismal");
-            this.SendToBack();
-            newForm.ShowDialog();
-        }
-
         private void SetDataToSeriesNumber()
         {
             String strActiveYear = currSeriesNumber.GetActiveYear();
@@ -377,15 +370,17 @@ namespace ParishDataManagement
             ListViewItem lstItem = null;
             lstSponsors.Items.Clear();
 
-            for (int x = 0; x < SystemVariable.arrSponsorPersonID.Length; x++)
+            if (Convert.ToInt16(SystemVariable.arrSponsorPersonID.Length) != 0)
             {
-                lstItem = lstSponsors.Items.Add(SystemVariable.arrSponsorPersonID[x].ToString());
-                lstItem.SubItems.Add(SystemVariable.arrSponsorFirstname[x].ToString());
-                lstItem.SubItems.Add(SystemVariable.arrSponsorMiddlename[x].ToString());
-                lstItem.SubItems.Add(SystemVariable.arrSponsorLastname[x].ToString());
-                lstItem.SubItems.Add(SystemVariable.arrSponsorAddress[x].ToString());
+                for (int x = 0; x < SystemVariable.arrSponsorPersonID.Length; x++)
+                {
+                    lstItem = lstSponsors.Items.Add(SystemVariable.arrSponsorPersonID[x].ToString());
+                    lstItem.SubItems.Add(SystemVariable.arrSponsorFirstname[x].ToString());
+                    lstItem.SubItems.Add(SystemVariable.arrSponsorMiddlename[x].ToString());
+                    lstItem.SubItems.Add(SystemVariable.arrSponsorLastname[x].ToString());
+                    lstItem.SubItems.Add(SystemVariable.arrSponsorAddress[x].ToString());
+                }
             }
-
         }
 
         public void cmdRefresh_Click(object sender, EventArgs e)
@@ -396,7 +391,7 @@ namespace ParishDataManagement
 
         private void frmBaptismalEntry_Activated(object sender, EventArgs e)
         {
-            //this.LoadSponsorToList();
+            this.LoadSponsorToList();
         }
 
         private void cmdRemove_Click(object sender, EventArgs e)
@@ -441,8 +436,16 @@ namespace ParishDataManagement
         {
             if(tabControl1.SelectedTab == tabControl1.TabPages["tabpage2"])
             {
-               // this.LoadSponsorToList();
+                //this.LoadSponsorToList();
             }
+        }
+
+        private void cmdAddSponsor_Click(object sender, EventArgs e)
+        {
+            frmListofSponsors newForm = new frmListofSponsors();
+            newForm.SetSponsorType("Baptismal");
+            this.SendToBack();
+            newForm.ShowDialog();
         }
     }
 }

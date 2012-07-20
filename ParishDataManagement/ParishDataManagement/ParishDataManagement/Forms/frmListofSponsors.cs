@@ -30,21 +30,21 @@ namespace ParishDataManagement
             switch (this.strSponsorType)
             { 
                 case "Baptismal":
-                    arrSponsor = new String[10];
-                    SystemVariable.arrSponsorPersonID = new String[10];
-                    SystemVariable.arrSponsorFirstname = new String[10];
-                    SystemVariable.arrSponsorMiddlename = new String[10];
-                    SystemVariable.arrSponsorLastname = new String[10];
-                    SystemVariable.arrSponsorAddress = new String[10];
+                    arrSponsor = new String[5];
+                    SystemVariable.arrSponsorPersonID = new String[5];
+                    SystemVariable.arrSponsorFirstname = new String[5];
+                    SystemVariable.arrSponsorMiddlename = new String[5];
+                    SystemVariable.arrSponsorLastname = new String[5];
+                    SystemVariable.arrSponsorAddress = new String[5];
                     break;
 
                 case "Marriage":
                     arrSponsor = new String[20];
-                    SystemVariable.arrSponsorPersonID = new String[20];
-                    SystemVariable.arrSponsorFirstname = new String[20];
-                    SystemVariable.arrSponsorMiddlename = new String[20];
-                    SystemVariable.arrSponsorLastname = new String[20];
-                    SystemVariable.arrSponsorAddress = new String[20];
+                    SystemVariable.arrSponsorPersonID = new String[5];
+                    SystemVariable.arrSponsorFirstname = new String[5];
+                    SystemVariable.arrSponsorMiddlename = new String[5];
+                    SystemVariable.arrSponsorLastname = new String[5];
+                    SystemVariable.arrSponsorAddress = new String[5];
                     break;
 
                 case "Confirmation":
