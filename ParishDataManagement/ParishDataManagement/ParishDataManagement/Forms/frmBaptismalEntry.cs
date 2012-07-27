@@ -20,6 +20,7 @@ namespace ParishDataManagement
         SeriesNumber currSeriesNumber = new SeriesNumber();
         SystemVariable sv = new SystemVariable();
         Byte errmsg = 0;
+        Byte errBaptismal = 0;
         String strComboState = null;
         private static String strCategoryFlag = "Baptismal";
         String strParentsState = null;
@@ -88,17 +89,6 @@ namespace ParishDataManagement
             { 
                 newPerson.ClusterID = Convert.ToInt16(cboCluster.SelectedValue.ToString());  
             }
-
-            if ((String.IsNullOrEmpty(lblFatherID.Text)) || (String.IsNullOrEmpty(lblMotherID.Text)))
-            {
-                txtFather.BackColor = Color.Red;
-                txtMother.BackColor = Color.Red;
-            }
-            else
-            {
-                newPerson.ParentIDForFather = Convert.ToInt16(lblFatherID.Text);
-                newPerson.ParentIDForMother = Convert.ToInt16(lblMotherID.Text);
-            }
         }
 
         private void SetDataToBaptismal()
@@ -106,16 +96,25 @@ namespace ParishDataManagement
             newBaptismal.BaptismalID = txtBaptismalNo.Text;
             newBaptismal.PersonID = newPerson.GetPersonIDByName(newPerson);
             newBaptismal.BookID = newBook.GetActiveBook(strCategoryFlag);
-
-            if ((String.IsNullOrEmpty(lblMinisterID.Text)) || (String.IsNullOrEmpty(lblFatherID.Text)) || (String.IsNullOrEmpty(lblMotherID.Text)))
-            { 
-                
+//|| (String.IsNullOrEmpty(lblFatherID.Text)) || (String.IsNullOrEmpty(lblMotherID.Text)))
+            if (String.IsNullOrEmpty(lblMinisterID.Text))
+            {
+                if (String.IsNullOrEmpty(lblFatherID.Text))
+                {
+                    if(String.IsNullOrEmpty(lblMotherID.Text))
+                    {
+                        errBaptismal = 1;
+                       // MessageBox.Show(errBaptismal.ToString());
+                    }
+                }
             }
             else
-            {
+            {  
                 newBaptismal.MinisterNo = Convert.ToInt16(lblMinisterID.Text);
                 newBaptismal.ParentsNoForFather = Convert.ToInt16(lblFatherID.Text);
                 newBaptismal.ParentsNoForMother = Convert.ToInt16(lblMotherID.Text);
+                errBaptismal = 0;
+                MessageBox.Show(errBaptismal.ToString());
             }   
             
             newBaptismal.DateofBaptism = String.Format("{0:dddd, MMMM d, yyyy}", dtDateofBaptism.Value);
@@ -334,21 +333,36 @@ namespace ParishDataManagement
         private void cmdSave_Click(object sender, EventArgs e)
         {
             this.SetDataToPerson();
-            newPerson.AddNew(newPerson);
-
-            for (int count = 0; count < lstSponsors.Items.Count; count++)
-            {
-                this.SetDataToSponsor(count);
-                newSponsor.AddNew(newSponsor);
-            }
-
             this.SetDataToBaptismal();
-            newBaptismal.AddNew(newBaptismal);
 
-            this.SetDataToSeriesNumber();
-            currSeriesNumber.Update(currSeriesNumber, "BaptismalSeries", currSeriesNumber.BaptismalSeries);
-
-            MessageBox.Show("New record successfully saved.", SystemVariable.ProjectName);
+            if ((errmsg == 0) && (errBaptismal == 0))
+            {
+                
+                    newPerson.ParentIDForFather = Convert.ToInt16(lblFatherID.Text);
+                    newPerson.ParentIDForMother = Convert.ToInt16(lblMotherID.Text);
+                    newPerson.AddNew(newPerson);
+                    for (int count = 0; count < lstSponsors.Items.Count; count++)
+                    {
+                        this.SetDataToSponsor(count);
+                        newSponsor.AddNew(newSponsor);
+                    }
+                        newBaptismal.AddNew(newBaptismal);
+                        this.SetDataToSeriesNumber();
+                        currSeriesNumber.Update(currSeriesNumber, "BaptismalSeries", currSeriesNumber.BaptismalSeries);
+                        MessageBox.Show("New record successfully saved.", SystemVariable.ProjectName);
+                
+            }
+            else
+            {
+                if ((String.IsNullOrEmpty(lblFatherID.Text)) || (String.IsNullOrEmpty(lblMotherID.Text)))
+                {
+                    txtFather.BackColor = Color.Red;
+                    txtMother.BackColor = Color.Red;
+                }
+   
+                    MessageBox.Show("Please supply the missing fields.");
+              
+            }
         }
 
         private void SetDataToSeriesNumber()
@@ -433,12 +447,7 @@ namespace ParishDataManagement
         }
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
-        {
-            if(tabControl1.SelectedTab == tabControl1.TabPages["tabpage2"])
-            {
-                //this.LoadSponsorToList();
-            }
-        }
+        { }
 
         private void cmdAddSponsor_Click(object sender, EventArgs e)
         {

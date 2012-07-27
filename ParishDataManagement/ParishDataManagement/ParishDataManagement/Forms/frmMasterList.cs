@@ -114,14 +114,14 @@ namespace ParishDataManagement
             MySqlDataAdapter adapter = new MySqlDataAdapter(strQuery, conn);
             MySqlDataAdapter adapterSponsor = new MySqlDataAdapter(strSponsorQuery, conn);
 
-            adapter.Fill(dsBaptismal, "Baptismal");
+           // adapter.Fill(dsBaptismal, "Baptismal");
             adapterSponsor.Fill(dsSponsor, "Sponsor");
 
-            dsBaptismalAll = dsBaptismal.Copy();
+           // dsBaptismalAll = dsBaptismal.Copy();
             dsBaptismalAll.Tables[0].Merge(dsSponsor.Tables[0], true);
             
             rptBaptismal.SetDataSource(dsBaptismalAll.Tables[0]);
-            //rptBaptismal.Subreports["rptSponsor"].SetDataSource(dsSponsor.Tables[0]);
+            //rptBapti smal.Subreports["rptSponsor"].SetDataSource(dsSponsor.Tables[0]);
             newViewer.crystalReportViewer.ReportSource = rptBaptismal;
             newViewer.crystalReportViewer.Refresh();
             newViewer.ShowDialog();

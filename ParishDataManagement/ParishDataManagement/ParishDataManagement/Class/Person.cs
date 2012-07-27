@@ -107,9 +107,13 @@ namespace ParishDataManagement
             try
             {
                 conn.Open();
-                strQuery = "INSERT INTO tblPerson(Lastname,Middlename,Firstname,Birthdate,BirthPlace,Gender,Status,ClusterID,ParentIDForFather,ParentIDForMother) VALUES" +
+                //strQuery = "INSERT INTO tblPerson(Lastname,Middlename,Firstname,Birthdate,BirthPlace,Gender,Status,ClusterID,ParentIDForFather,ParentIDForMother) VALUES" +
+                //           " ('" + this.Lastname + "','" + this.Middlename + "','" + this.Firstname + "','" + this.Birthdate + "','" + this.Birthplace + "','" +
+                //           this.Gender + "','" + this.Status + "','" + this.ClusterID + "','" + this.ParentIDForFather + "','" + this.ParentIDForMother + "')";
+
+                strQuery = "INSERT INTO tblPerson(Lastname,Middlename,Firstname,Birthdate,BirthPlace,Gender,Status,ClusterID) VALUES" +
                            " ('" + this.Lastname + "','" + this.Middlename + "','" + this.Firstname + "','" + this.Birthdate + "','" + this.Birthplace + "','" +
-                           this.Gender + "','" + this.Status + "','" + this.ClusterID + "','" + this.ParentIDForFather + "','" + this.ParentIDForMother + "')";
+                           this.Gender + "','" + this.Status + "','" + this.ClusterID + "')";
 
                 comm.Connection = conn;
                 comm.CommandText = strQuery;

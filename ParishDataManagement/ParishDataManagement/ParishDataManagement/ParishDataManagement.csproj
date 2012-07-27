@@ -107,12 +107,6 @@
     <Compile Include="Class\UserType.cs" />
     <Compile Include="Dataset\BaptismalDataSetSchema.cs">
       <DependentUpon>BaptismalDataSetSchema.xsd</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Dataset\BaptismalDataSetSchema.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BaptismalDataSetSchema.xsd</DependentUpon>
     </Compile>
     <Compile Include="Dataset\FatherDataSetSchema.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -370,7 +364,6 @@
     <None Include="Dataset\BaptismalDataSetSchema.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>BaptismalDataSetSchema.Designer.cs</LastGenOutput>
     </None>
     <None Include="Dataset\BaptismalDataSetSchema.xss">
       <DependentUpon>BaptismalDataSetSchema.xsd</DependentUpon>

@@ -289,9 +289,6 @@
             this.cboChapel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboChapel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboChapel.FormattingEnabled = true;
-            this.cboChapel.Items.AddRange(new object[] {
-            "Single",
-            "Married"});
             this.cboChapel.Location = new System.Drawing.Point(545, 182);
             this.cboChapel.Name = "cboChapel";
             this.cboChapel.Size = new System.Drawing.Size(279, 21);
